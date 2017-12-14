@@ -18,6 +18,13 @@
 	</modules>
 
 	<dependencies>
+		<!-- taotao-common -->
+		<dependency>
+			<groupId>com.taotao.common</groupId>
+			<artifactId>taotao-common</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+	
 		<!-- 单元测试 -->
 		<dependency>
 			<groupId>junit</groupId>
@@ -36,6 +43,11 @@
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-io</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+			<version>1.3.1</version>
 		</dependency>
 	</dependencies>
 	<build>

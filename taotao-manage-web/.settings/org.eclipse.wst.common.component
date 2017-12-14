@@ -13,6 +13,9 @@
         <dependent-module archiveName="taotao-manage-pojo-1.0.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/taotao-manage-pojo/taotao-manage-pojo">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="taotao-common-1.0.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/taotao-common/taotao-common">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <property name="context-root" value="taotao-manage-web"/>
         <property name="java-output-path" value="/taotao-manage-web/target/classes"/>
     </wb-module>
