@@ -20,20 +20,21 @@ import com.taotao.manage.service.ItemService;
 public class ItemController {
 	@Autowired
 	private ItemService itemService;
-	
-	private static final Logger LOGGER = LoggerFactory.getLogger(PicUploadController.class);
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(ItemController.class);
 
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Void> save(Item item, @RequestParam("desc") String desc) {
+	public ResponseEntity<Void> save(Item item, @RequestParam("desc") String desc,
+			@RequestParam("itemParams") String itemParams) {
 		try {
-			if (LOGGER.isInfoEnabled()){
+			if (LOGGER.isInfoEnabled()) {
 				LOGGER.info("inf is [{}] and [{}]", item, desc);
 			}
 			if (StringUtils.isEmpty(item.getTitle())) {
 				return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 			}
 
-			this.itemService.saveItem(item, desc);
+			this.itemService.saveItem(item, desc, itemParams);
 			return ResponseEntity.status(HttpStatus.CREATED).build();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -53,5 +54,25 @@ public class ItemController {
 			e.printStackTrace();
 		}
 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+	}
+
+	@RequestMapping(method = RequestMethod.PUT)
+	public ResponseEntity<Void> update(Item item, @RequestParam("desc") String desc,
+			@RequestParam("itemParams") String itemParams) {
+		try {
+			LOGGER.info("inf is [{}] and [{}]", item, desc);
+			if (StringUtils.isEmpty(item.getTitle())) {
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+			}
+
+			Boolean bool = this.itemService.updateItem(item, desc, itemParams);
+			if (bool) {
+				return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 	}
 }

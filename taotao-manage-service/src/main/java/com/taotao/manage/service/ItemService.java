@@ -2,8 +2,6 @@ package com.taotao.manage.service;
 
 import java.util.List;
 
-import org.apache.commons.logging.impl.Log4JLogger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +12,7 @@ import com.taotao.common.bean.EasyUIResult;
 import com.taotao.manage.mapper.ItemMapper;
 import com.taotao.manage.pojo.Item;
 import com.taotao.manage.pojo.ItemDesc;
+import com.taotao.manage.pojo.ItemParamItem;
 
 @Service
 public class ItemService extends BaseService<Item>{
@@ -21,9 +20,19 @@ public class ItemService extends BaseService<Item>{
 	private ItemDescService itemDescService;
 	
 	@Autowired
+	private ItemParamItemService itemParamItemService;
+	
+	@Autowired
 	private ItemMapper itemMapper;
 	
-	public void saveItem(Item item, String desc){
+	/**
+	 * 保存item
+	 * 
+	 * @param item
+	 * @param desc
+	 * @param itemParams 
+	 */
+	public void saveItem(Item item, String desc, String itemParams){
 		
 		item.setStatus(1);
 		item.setId(null);
@@ -33,6 +42,37 @@ public class ItemService extends BaseService<Item>{
 		itemDesc.setItemId(item.getId());
 		itemDesc.setItemDesc(desc);
 		this.itemDescService.save(itemDesc);
+		
+		// 保存商品规格
+		ItemParamItem itemParamItem = new ItemParamItem();
+		itemParamItem.setItemId(item.getId());
+		itemParamItem.setParamData(itemParams);
+		this.itemParamItemService.save(itemParamItem);
+		
+	}
+	
+	/**
+	 * 更新item
+	 * 
+	 * @param item
+	 * @param desc
+	 * @param itemParams 
+	 * @return 
+	 */
+	public Boolean updateItem(Item item, String desc, String itemParams){
+		item.setCreated(null);
+		item.setStatus(null);
+		Integer count1 = super.updateSelective(item);
+		
+		ItemDesc itemDesc = new ItemDesc();
+		itemDesc.setItemId(item.getId());
+		itemDesc.setItemDesc(desc);
+		Integer count2 = this.itemDescService.updateSelective(itemDesc);
+		
+		//更新规格参数数据
+		Integer count3 = this.itemParamItemService.updateItemParamItem(item.getId(), itemParams);
+		
+		return count1.intValue() == 1 && count2.intValue() == 1 && count3.intValue() == 1;
 	}
 	
 	/**

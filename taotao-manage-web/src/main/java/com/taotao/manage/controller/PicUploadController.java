@@ -10,8 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -30,8 +28,6 @@ import com.taotao.manage.service.PropertiesService;
 public class PicUploadController {
 	@Autowired
 	private PropertiesService properties;
-
-	private static final Logger LOGGER = LoggerFactory.getLogger(PicUploadController.class);
 
 	private static final ObjectMapper mapper = new ObjectMapper();
 
@@ -75,7 +71,6 @@ public class PicUploadController {
 				isLegal = true;
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		result.setError(isLegal ? 0 : 1);
