@@ -20,21 +20,21 @@ public class ItemCatController {
 	private ItemCatService itemCatService;
 
 	@RequestMapping(value = "{cat}", method = RequestMethod.GET)
-	public ResponseEntity<List<ItemCat>> queryItemCatListByParentId(
-			@RequestParam(value = "id", defaultValue = "0") long parentId) {
-		try {
+	public ResponseEntity<List<ItemCat>> queryItemCat(@RequestParam(value = "id", defaultValue = "0") long parentId) {
+		try{
 			ItemCat record = new ItemCat();
 			record.setParentId(parentId);
 			List<ItemCat> list = this.itemCatService.queryListByWhere(record);
-			if (null == list || list.isEmpty()) {
+			
+			if(null == list || list.isEmpty()){
 				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-			} else {
+			}else{
 				return ResponseEntity.ok(list);
 			}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
+		}catch(Exception e){
 			e.printStackTrace();
 		}
 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
 	}
+
 }
