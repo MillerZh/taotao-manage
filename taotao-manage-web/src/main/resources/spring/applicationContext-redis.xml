@@ -7,20 +7,20 @@
 	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
 	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd">
 
-	<bean class="org.mybatis.spring.SqlSessionFactoryBean">
-		<!-- 指定数据源 -->
-		<property name="dataSource" ref="dataSource"/>
-		<!-- 指定mybatis的全局配置文件 -->
-		<property name="configLocation" value="classpath:mybatis/mybatis-config.xml"/>
-		<!-- 指定mapper.xml文件，扫描所有的文件 -->
-		<property name="mapperLocations" value="classpath:mybatis/mappers/**/*.xml"/>
-		<!-- 指定别名包 -->
-		<property name="typeAliasesPackage" value="com.taotao.manage.pojo"/>
+	<!-- 定义分片式连接池 -->
+	<bean class="redis.clients.jedis.ShardedJedisPool">
+		<constructor-arg index="0">
+			<bean class="redis.clients.jedis.JedisPoolConfig">
+				<property name="maxTotal" value="${redis.maxTotal}" />
+			</bean>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<list>
+				<bean class="redis.clients.jedis.JedisShardInfo">
+					<constructor-arg index="0" value="${redis.node1.host}"/>
+					<constructor-arg index="1" value="${redis.node1.port}"/>
+				</bean>
+			</list>
+		</constructor-arg>
 	</bean>
-	
-	<!-- 定义Mapper接口的扫描器 -->
-	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-		<property name="basePackage" value="com.taotao.manage.mapper"/>
-	</bean>
-
 </beans>

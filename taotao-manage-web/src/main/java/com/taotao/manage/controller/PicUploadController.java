@@ -84,7 +84,7 @@ public class PicUploadController {
 		return mapper.writeValueAsString(result);
 	}
 
-	// D:\\Java\\data\\img\\2015\\11\\13\\20151113111111111.jpg
+	// C:\\Java\\data\\img\\2015\\11\\13\\20151113111111111.jpg
 	private String getFilePath(String originalFilename) {
 		// 创建文件路径
 		Date now = new Date();
